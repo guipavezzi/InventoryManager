@@ -34,7 +34,7 @@ public class ProductSaleConfiguration : IEntityTypeConfiguration<ProductSale>
             .HasColumnType("decimal(18,2)");
 
         builder.HasOne(ps => ps.Product)
-            .WithMany(p => p.ItensVenda)
+            .WithMany(p => p.ProductSales)
             .HasForeignKey(ps => ps.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
 
