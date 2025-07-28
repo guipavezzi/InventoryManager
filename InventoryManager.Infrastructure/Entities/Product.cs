@@ -10,7 +10,7 @@ public class Product
     public int Amount { get; set; }
     public Guid StoreId { get; set; }
     public Store Store { get; set; }
-    public virtual ICollection<ProductSale> ItensVenda { get; set; }
+    public virtual ICollection<ProductSale> ProductSales { get; set; }
 }
 
 public class ProductConfiguration : IEntityTypeConfiguration<Product>
