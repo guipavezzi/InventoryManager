@@ -1,8 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<ContextDB>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionDb")));
 
 var app = builder.Build();
 
