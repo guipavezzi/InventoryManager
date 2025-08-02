@@ -28,13 +28,13 @@ public class ContextDB : DbContext
 }
 
 //CLASSE PARA FAZER A MIGRATION
-public class ContextDBFactory : IDesignTimeDbContextFactory<ContextDB>
-{
-    public ContextDB CreateDbContext(string[] args)
-    {
-        var optionsBuilder = new DbContextOptionsBuilder<ContextDB>();
-        optionsBuilder.UseSqlServer("SUA_CONEXAO");
+// public class ContextDBFactory : IDesignTimeDbContextFactory<ContextDB>
+// {
+//     public ContextDB CreateDbContext(string[] args)
+//     {
+//         var optionsBuilder = new DbContextOptionsBuilder<ContextDB>();
+//         optionsBuilder.UseSqlServer("Server=localhost,1433;Database=InventoryManager;User Id=sa;Password=MinhaSenha123!;TrustServerCertificate=True;");
 
-        return new ContextDB(optionsBuilder.Options);
-    }
-}
+//         return new ContextDB(optionsBuilder.Options);
+//     }
+// }

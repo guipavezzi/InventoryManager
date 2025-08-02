@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -7,7 +8,7 @@ public class User
     public string Name { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
-
+    public string Salt { get; set; }
     public virtual ICollection<UserStore> UserStores { get; set; }
 }
 
@@ -37,5 +38,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired()
             .HasMaxLength(100);
 
+        builder.Property(u => u.Salt)
+            .HasColumnName("salt")
+            .IsRequired()
+            .HasMaxLength(100);
     }
 }
