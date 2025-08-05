@@ -10,6 +10,7 @@ public class User
     public string Password { get; set; }
     public string Salt { get; set; }
     public virtual ICollection<UserStore> UserStores { get; set; }
+    public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
 }
 
 public class UserConfiguration : IEntityTypeConfiguration<User>
@@ -42,5 +43,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasColumnName("salt")
             .IsRequired()
             .HasMaxLength(100);
+
+        builder.HasMany(u => u.RefreshTokens)
+           .WithOne(rt => rt.User)
+           .HasForeignKey(rt => rt.UserId);
     }
 }

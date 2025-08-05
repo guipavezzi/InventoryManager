@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Net;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -7,7 +8,11 @@ public class ExceptionFilter : IExceptionFilter
 {
     public void OnException(ExceptionContext context)
     {
-        if (context.Exception is ValidationException validationException)
+        if (context.Exception is InventoryManagerException)
+        {
+            HandleProjectException(context);
+        }
+        else if (context.Exception is ValidationException validationException)
         {
             var response = new FluentValidationException
             {
@@ -22,10 +27,19 @@ public class ExceptionFilter : IExceptionFilter
             return;
         }
 
-        context.Result = new ObjectResult(new { error = "Erro Inersperado" })
+    }
+
+    private void HandleProjectException(ExceptionContext context)
+    {
+        if (context.Exception is ConflictException)
         {
-            StatusCode = 500
-        };
-        context.ExceptionHandled = true;
+            context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Conflict;
+            context.Result = new ConflictObjectResult(new ResponseErrorJson(context.Exception.Message));
+        }
+        if (context.Exception is NotFoundException)
+        {
+            context.HttpContext.Response.StatusCode = (int)HttpStatusCode.NoContent;
+            context.Result = new NotFoundObjectResult(new ResponseErrorJson(context.Exception.Message));
+        }
     }
 }

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryManager.Infrastructure.Migrations
 {
     [DbContext(typeof(ContextDB))]
-    [Migration("20250728221107_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20250803022500_FixRefreshTokenUserRelationship")]
+    partial class FixRefreshTokenUserRelationship
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,6 +82,45 @@ namespace InventoryManager.Infrastructure.Migrations
                     b.HasIndex("SaleId");
 
                     b.ToTable("products_sale", (string)null);
+                });
+
+            modelBuilder.Entity("RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime>("Expires")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("expires");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_revoked");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("token");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("user_id");
+
+                    b.Property<Guid?>("UserId1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("refresh_token", (string)null);
                 });
 
             modelBuilder.Entity("Sale", b =>
@@ -182,6 +221,12 @@ namespace InventoryManager.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("password");
 
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("salt");
+
                     b.HasKey("Id");
 
                     b.ToTable("users", (string)null);
@@ -218,7 +263,7 @@ namespace InventoryManager.Infrastructure.Migrations
             modelBuilder.Entity("ProductSale", b =>
                 {
                     b.HasOne("Product", "Product")
-                        .WithMany("ItensVenda")
+                        .WithMany("ProductSales")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -232,6 +277,21 @@ namespace InventoryManager.Infrastructure.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("Sale");
+                });
+
+            modelBuilder.Entity("RefreshToken", b =>
+                {
+                    b.HasOne("User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("User", null)
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Sale", b =>
@@ -266,7 +326,7 @@ namespace InventoryManager.Infrastructure.Migrations
 
             modelBuilder.Entity("Product", b =>
                 {
-                    b.Navigation("ItensVenda");
+                    b.Navigation("ProductSales");
                 });
 
             modelBuilder.Entity("Sale", b =>
@@ -281,6 +341,8 @@ namespace InventoryManager.Infrastructure.Migrations
 
             modelBuilder.Entity("User", b =>
                 {
+                    b.Navigation("RefreshTokens");
+
                     b.Navigation("UserStores");
                 });
 #pragma warning restore 612, 618

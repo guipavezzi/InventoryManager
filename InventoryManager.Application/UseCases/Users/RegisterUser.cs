@@ -14,7 +14,7 @@ public class RegisterUser
     public async Task<UserRegisterResponse> Execute(RequestUserRegister request)
     {
         if (await _userRepository.EmailExist(request.Email))
-            return new UserRegisterResponse{Response = "Email Já cadastraado"};
+            throw new ConflictException("Email já cadastrado!");
         
         var passwordCryptography = new PasswordHasher();
         var hashSalt = passwordCryptography.HashPassword(request.Password);
@@ -25,6 +25,6 @@ public class RegisterUser
 
         await _userRepository.Add(user);
 
-        return new UserRegisterResponse{Response = "Usuário Cadastrado com Sucesso"};
+        return new UserRegisterResponse{Message = "Usuário Cadastrado com Sucesso"};
     }
 }

@@ -14,6 +14,7 @@ public class ContextDB : DbContext
     public DbSet<Store> Stores { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<UserStore> UserStores { get; set; }
+    public DbSet<RefreshToken> RefreshTokens{ get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -24,6 +25,7 @@ public class ContextDB : DbContext
         modelBuilder.ApplyConfiguration(new StoreConfiguration());
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new UserStoreConfiguration());
+        modelBuilder.ApplyConfiguration(new RefreshTokenConfiguration());
     }
 }
 
@@ -33,7 +35,7 @@ public class ContextDB : DbContext
 //     public ContextDB CreateDbContext(string[] args)
 //     {
 //         var optionsBuilder = new DbContextOptionsBuilder<ContextDB>();
-//         optionsBuilder.UseSqlServer("Server=localhost,1433;Database=InventoryManager;User Id=sa;Password=MinhaSenha123!;TrustServerCertificate=True;");
+//         optionsBuilder.UseSqlServer("YOUR_CONNECTION");
 
 //         return new ContextDB(optionsBuilder.Options);
 //     }

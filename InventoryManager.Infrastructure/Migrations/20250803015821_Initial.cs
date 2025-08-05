@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace InventoryManager.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,7 +35,8 @@ namespace InventoryManager.Infrastructure.Migrations
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    password = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    password = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    salt = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -80,6 +81,28 @@ namespace InventoryManager.Infrastructure.Migrations
                         name: "FK_sales_stores_store_id",
                         column: x => x.store_id,
                         principalTable: "stores",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "refresh_token",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    token = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    expires = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    created_at = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    is_revoked = table.Column<bool>(type: "bit", nullable: false),
+                    user_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_refresh_token", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_refresh_token_users_user_id",
+                        column: x => x.user_id,
+                        principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -145,6 +168,11 @@ namespace InventoryManager.Infrastructure.Migrations
                 column: "sale_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_refresh_token_user_id",
+                table: "refresh_token",
+                column: "user_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_sales_store_id",
                 table: "sales",
                 column: "store_id");
@@ -160,6 +188,9 @@ namespace InventoryManager.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "products_sale");
+
+            migrationBuilder.DropTable(
+                name: "refresh_token");
 
             migrationBuilder.DropTable(
                 name: "user_store");

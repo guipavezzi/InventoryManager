@@ -1,4 +1,4 @@
 public class UserRegisterResponse
 {
-    public string Response { get; set; }
+    public string Message { get; set; }
 }

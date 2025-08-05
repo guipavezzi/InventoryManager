@@ -21,4 +21,9 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users.AnyAsync(u => u.Email.Equals(email));
     }
+
+    public async Task<User> GetUser(string email)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
+    }
 }

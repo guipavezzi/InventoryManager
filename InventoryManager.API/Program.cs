@@ -28,8 +28,15 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<ContextDB>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("InventoryManagerConnection")));
 
+builder.Services.Configure<JwtSettings>(
+    builder.Configuration.GetSection("Jwt")
+);
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 builder.Services.AddScoped<RegisterUser>();
+builder.Services.AddScoped<LoginUser>();
+builder.Services.AddScoped<JwtService>();
 
 
 
