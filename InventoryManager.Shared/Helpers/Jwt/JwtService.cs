@@ -12,12 +12,11 @@ public class JwtService
         _settings = settings.Value;
     }
 
-    public string GenerateToken(Guid userId, string email)
+    public string GenerateToken(Guid userId)
     {
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 

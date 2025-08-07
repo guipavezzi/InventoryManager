@@ -19,7 +19,7 @@ public class LoginUser
         if (user is null || !passwordCryptography.Verify(request.Password, user.Password, user.Salt))
             throw new UnauthorizedException("Credenciais Incorretas");
 
-        var token = _jwtService.GenerateToken(user.Id, user.Email);
+        var token = _jwtService.GenerateToken(user.Id);
 
         var refreshTokenValue = GenerateRefreshToken();
 

@@ -34,10 +34,5 @@ public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
 
               builder.Property(x => x.UserId)
                      .HasColumnName("user_id");
-
-              builder.HasOne(rt => rt.User)
-                     .WithMany()
-                     .HasForeignKey(rt => rt.UserId)
-                     .IsRequired();
        }
 }

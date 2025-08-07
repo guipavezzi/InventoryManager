@@ -44,7 +44,7 @@ public class StoreConfiguration : IEntityTypeConfiguration<Store>
 
         builder.Property(x => x.State)
             .HasColumnName("state")
-            .HasMaxLength(2);
+            .HasMaxLength(50);
 
         builder.Property(x => x.City)
             .HasColumnName("city")
