@@ -15,6 +15,15 @@ public class StoreRepository : IStoreRepository
         return entity;
     }
 
+    public async Task<IList<Store>> GetStoresByIdUser(Guid userId)
+    {
+        return await _context.UserStores
+                    .Where(us => us.UserId == userId)
+                    .Include(us => us.Store)
+                    .Select(us => us.Store)
+                    .ToListAsync();
+    }
+
     public Task<bool> StoreExist(string CNPJ)
     {
         return _context.Stores.AnyAsync(x => x.Cnpj.Equals(CNPJ));

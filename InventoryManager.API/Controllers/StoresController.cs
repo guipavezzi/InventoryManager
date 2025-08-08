@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 public class StoresController : ControllerBase
 {
     private readonly RegisterStore _registerStore;
-    public StoresController(RegisterStore registerStore)
+    private readonly GetStores _getStores;
+    public StoresController(RegisterStore registerStore,
+                            GetStores getStores)
     {
         _registerStore = registerStore;
+        _getStores = getStores;
     }
 
     [HttpPost]
@@ -20,5 +23,12 @@ public class StoresController : ControllerBase
     public async Task<IActionResult> Register(RequestRegisterStore request)
     {
         return Created(string.Empty, await _registerStore.Execute(request));
+    }
+
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> GetStores()
+    {
+        return Ok(await _getStores.Execute());
     }
 }

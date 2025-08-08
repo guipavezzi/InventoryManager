@@ -10,7 +10,6 @@ public class Store
     public string Telephone { get; set; }
     public string State { get; set; }
     public string City { get; set; }
-
     public virtual ICollection<UserStore> UserStores { get; set; }
 }
 
