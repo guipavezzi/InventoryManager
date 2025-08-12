@@ -40,12 +40,14 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 builder.Services.AddScoped<IStoreRepository, StoreRepository>();
 builder.Services.AddScoped<IUserStoreRepository, UserStoreRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 builder.Services.AddScoped<RegisterUser>();
 builder.Services.AddScoped<LoginUser>();
 builder.Services.AddScoped<RegisterStore>();
 builder.Services.AddScoped<RegisterNewRefreshToken>();
 builder.Services.AddScoped<GetStores>();
+builder.Services.AddScoped<RegisterProduct>();
 builder.Services.AddScoped<JwtService>();
 
 builder.Services.AddCors(options =>

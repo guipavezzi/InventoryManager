@@ -24,8 +24,13 @@ public class StoreRepository : IStoreRepository
                     .ToListAsync();
     }
 
-    public Task<bool> StoreExist(string CNPJ)
+    public async Task<bool> StoreExist(string CNPJ)
     {
-        return _context.Stores.AnyAsync(x => x.Cnpj.Equals(CNPJ));
+        return await _context.Stores.AnyAsync(x => x.Cnpj.Equals(CNPJ));
+    }
+
+    public async Task<bool> StoreExist(Guid id)
+    {
+        return await _context.Stores.AnyAsync(x => x.Id == id);
     }
 }
