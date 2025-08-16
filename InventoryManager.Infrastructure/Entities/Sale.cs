@@ -6,9 +6,9 @@ public class Sale
     public Guid Id { get; set; }
     public DateTime DateSale { get; set; }
     public Guid StoreId { get; set; }
-    public required Store Store { get; set; }
+    public Store Store { get; set; }
     public decimal TotalValue { get; set; }
-    public virtual required ICollection<ProductSale> ProductSale { get; set; }
+    public virtual ICollection<ProductSale> ProductSale { get; set; }
 }
 
 public class SaleConfiguration : IEntityTypeConfiguration<Sale>

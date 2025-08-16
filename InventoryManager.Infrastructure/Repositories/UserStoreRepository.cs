@@ -8,7 +8,7 @@ public class UserStoreRepository : IUserStoreRepository
         _context = context;
     }
 
-    public async Task<UserStore> Register(UserStore entity)
+    public async Task<UserStore> Add(UserStore entity)
     {
         await _context.UserStores.AddAsync(entity);
         await _context.SaveChangesAsync();

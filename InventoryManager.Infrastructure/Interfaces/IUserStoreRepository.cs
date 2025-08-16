@@ -1,4 +1,4 @@
 public interface IUserStoreRepository
 {
-    Task<UserStore> Register(UserStore entity);
+    Task<UserStore> Add(UserStore entity);
 }

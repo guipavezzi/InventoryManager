@@ -40,7 +40,7 @@ public class RegisterStore
             StoreId = store.Id,
         };
 
-        await _userStoreRepository.Register(userStore);
+        await _userStoreRepository.Add(userStore);
 
         return new StoreRegisterResponse
         {

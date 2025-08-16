@@ -18,7 +18,7 @@ public class RegisterProduct
             throw new NotFoundException("Loja não encontrada");
 
         request.StoreId = storeId;
-        var product = await _productRepository.Register(_mapper.Map<Product>(request));
+        var product = await _productRepository.Add(_mapper.Map<Product>(request));
 
         if (product is null)
             throw new NotFoundException("Erro ao cadastrar produto");

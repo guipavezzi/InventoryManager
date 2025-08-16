@@ -7,5 +7,6 @@ public class MappingProfile : Profile
         CreateMap<RequestUserRegister, User>();
         CreateMap<RequestRegisterStore, Store>();
         CreateMap<RequestProductRegister, Product>();
+        CreateMap<RequestProductsSale, Product>();
     }
 }
